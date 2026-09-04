@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    >
+
+    <title>Cooking Timer</title>
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-icon">♨</span>
+          <span>Kitchen Companion</span>
+        </div>
+
+        <nav class="tabs">
+          <button class="tab active" type="button">
+            Reminders
+          </button>
+
+          <button class="tab" type="button">
+            Completed reminders
+          </button>
+        </nav>
+      </header>
+
+      <main class="main-content">
+        <section class="reminder-section">
+          <h1>Cooking reminders</h1>
+
+          <p class="instructions">
+            Type or speak a reminder, choose a time, then press Start.
+          </p>
+
+          <form class="reminder-form">
+            <div class="form-field reminder-field">
+              <label for="reminder-input">
+                What should I remind you?
+              </label>
+
+              <div class="reminder-input-group">
+                <input
+                  id="reminder-input"
+                  type="text"
+                  placeholder="For example: Turn the egg"
+                >
+
+                <button
+                  class="voice-button"
+                  type="button"
+                  aria-label="Speak reminder"
+                >
+                  🎤
+                </button>
+              </div>
+            </div>
+
+            <div class="form-field timer-field">
+              <label for="timer-number">Timer</label>
+
+              <div class="timer-input-group">
+                <input
+                  id="timer-number"
+                  type="number"
+                  min="1"
+                  value="2"
+                >
+
+                <select id="timer-unit">
+                  <option value="seconds">Seconds</option>
+                  <option value="minutes" selected>Minutes</option>
+                  <option value="hours">Hours</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="start-button" type="button">
+              ▷ Start
+            </button>
+          </form>
+
+          <div class="waiting-header">
+            <h2>Waiting reminders</h2>
+
+            <p id="reminder-count">
+              0 of 20 running
+            </p>
+          </div>
+
+          <div id="waiting-reminders" class="waiting-list">
+            <p class="empty-message">
+              No active reminders yet.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
