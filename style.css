@@ -179,3 +179,23 @@ body {
   color: #766b65;
   text-align: center;
 } 
+
+.reminder-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px;
+  border-bottom: 1px solid #eadfd8;
+}
+
+.reminder-item h3 {
+  margin: 0 0 8px;
+  color: #29231f;
+  font-size: 20px;
+}
+
+.reminder-item p {
+  margin: 0;
+  color: #766b65;
+  font-size: 16px;
+}
