@@ -66,6 +66,8 @@ startButton.addEventListener("click", function () {
     alert("You can only have 20 active reminders.");
     return;
   }
+  
+  unlockSpeechOnPhone();
 
   const reminder = {
     id: Date.now() + Math.random(),
@@ -304,6 +306,29 @@ function deleteActiveReminder(reminder) {
 
   updateActiveCount();
   showEmptyActiveMessage();
+}
+
+/*
+  UNLOCK SPEECH ON IPHONE
+*/
+
+function unlockSpeechOnPhone() {
+  if (!("speechSynthesis" in window)) {
+    alert("Speech is not supported in this browser.");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.resume();
+
+  const testSpeech =
+    new SpeechSynthesisUtterance("Timer started.");
+
+  testSpeech.lang = "en-US";
+  testSpeech.rate = 0.92;
+  testSpeech.volume = 1;
+
+  window.speechSynthesis.speak(testSpeech);
 }
 
 /*
