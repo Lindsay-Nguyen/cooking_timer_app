@@ -10,6 +10,9 @@ const timerUnit =
 const startButton =
   document.querySelector(".start-button");
 
+const voiceButton =
+  document.querySelector(".voice-button");
+
 const waitingList =
   document.querySelector("#waiting-reminders");
 
@@ -376,3 +379,194 @@ deleteSelectedButton.addEventListener("click", function () {
 
   renderCompletedReminders();
 });
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+const numberWords = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+  eleven: 11,
+  twelve: 12,
+  thirteen: 13,
+  fourteen: 14,
+  fifteen: 15,
+  sixteen: 16,
+  seventeen: 17,
+  eighteen: 18,
+  nineteen: 19,
+  twenty: 20
+};
+
+let waitingForConfirmation = false;
+
+if (SpeechRecognition) {
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  voiceButton.addEventListener("click", function () {
+    waitingForConfirmation = false;
+    recognition.start();
+  });
+
+  recognition.addEventListener("start", function () {
+    voiceButton.classList.add("listening");
+    voiceButton.textContent = "🔴";
+    voiceButton.setAttribute("aria-label", "Listening");
+  });
+
+  recognition.addEventListener("result", function (event) {
+    const spokenWords =
+      event.results[0][0].transcript.trim();
+
+    if (waitingForConfirmation) {
+      handleConfirmation(spokenWords, recognition);
+    } else {
+      handleVoiceCommand(spokenWords, recognition);
+    }
+  });
+
+  recognition.addEventListener("end", function () {
+    voiceButton.classList.remove("listening");
+    voiceButton.textContent = "🎤";
+    voiceButton.setAttribute(
+      "aria-label",
+      "Speak reminder"
+    );
+  });
+
+  recognition.addEventListener("error", function (event) {
+    voiceButton.classList.remove("listening");
+    voiceButton.textContent = "🎤";
+
+    if (event.error === "not-allowed") {
+      alert("Please allow microphone access in Chrome.");
+    } else if (event.error !== "no-speech") {
+      alert("I could not hear you. Please try again.");
+    }
+  });
+} else {
+  voiceButton.disabled = true;
+
+  voiceButton.title =
+    "Voice recognition is not supported in this browser.";
+}
+
+function handleVoiceCommand(spokenWords, recognition) {
+  const timePattern =
+    /\b(?:in|for)\s+(\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\s+(seconds?|minutes?|hours?)\b/i;
+
+  const timeMatch = spokenWords.match(timePattern);
+
+  if (!timeMatch) {
+    reminderInput.value = spokenWords;
+
+    speakMessage(
+      "I added the reminder, but I did not understand the time."
+    );
+
+    return;
+  }
+
+  const spokenNumber = timeMatch[1].toLowerCase();
+  const spokenUnit = timeMatch[2].toLowerCase();
+
+  let timeAmount = Number(spokenNumber);
+
+  if (Number.isNaN(timeAmount)) {
+    timeAmount = numberWords[spokenNumber];
+  }
+
+  const selectedUnit = spokenUnit.endsWith("s")
+    ? spokenUnit
+    : `${spokenUnit}s`;
+
+  const reminderText = spokenWords
+    .replace(timeMatch[0], "")
+    .replace(/[,.!?]+$/, "")
+    .trim();
+
+  reminderInput.value = reminderText;
+  timerNumber.value = timeAmount;
+  timerUnit.value = selectedUnit;
+
+  waitingForConfirmation = true;
+
+  const confirmationUnit =
+    timeAmount === 1
+      ? selectedUnit.slice(0, -1)
+      : selectedUnit;
+
+  const confirmationMessage =
+    `${reminderText} in ${timeAmount} ${confirmationUnit}. ` +
+    "Should I start now?";
+
+  speakMessage(confirmationMessage, function () {
+    recognition.start();
+  });
+}
+
+function handleConfirmation(spokenWords, recognition) {
+  const answer = spokenWords.toLowerCase();
+
+  const saidYes =
+    answer.includes("yes") ||
+    answer.includes("yeah") ||
+    answer.includes("start");
+
+  const saidNo =
+    answer.includes("no") ||
+    answer.includes("cancel") ||
+    answer.includes("stop");
+
+  if (saidYes) {
+    waitingForConfirmation = false;
+
+    startButton.click();
+
+    speakMessage("Starting your timer now.");
+    return;
+  }
+
+  if (saidNo) {
+    waitingForConfirmation = false;
+
+    reminderInput.value = "";
+
+    speakMessage("Okay, the reminder was canceled.");
+    return;
+  }
+
+  speakMessage(
+    "I did not understand. Please say yes or no.",
+    function () {
+      recognition.start();
+    }
+  );
+}
+
+function speakMessage(message, afterSpeaking) {
+  const speech =
+    new SpeechSynthesisUtterance(message);
+
+  speech.lang = "en-US";
+  speech.rate = 0.9;
+  speech.volume = 1;
+
+  if (afterSpeaking) {
+    speech.addEventListener("end", afterSpeaking);
+  }
+
+  window.speechSynthesis.speak(speech);
+}
