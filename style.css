@@ -283,3 +283,42 @@ body {
   color: #b94a3f;
   cursor: pointer;
 }
+
+.reminder-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-button,
+.stop-alarm-button {
+  padding: 12px 16px;
+  border: 1px solid #d9cbc3;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #29231f;
+  cursor: pointer;
+}
+
+.delete-reminder-button {
+  color: #b94a3f;
+}
+
+.paused-time {
+  color: #9a7464;
+}
+
+.reminder-item.alarming {
+  background-color: #fff0e8;
+}
+
+.reminder-item.alarming .reminder-countdown {
+  border-color: #e9683a;
+}
+
+.stop-alarm-button {
+  background-color: #b94a3f;
+  border-color: #b94a3f;
+  color: #ffffff;
+  font-weight: bold;
+}
