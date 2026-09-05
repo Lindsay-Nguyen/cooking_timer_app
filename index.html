@@ -21,18 +21,29 @@
         </div>
 
         <nav class="tabs">
-          <button class="tab active" type="button">
+          <button
+            id="reminders-tab"
+            class="tab active"
+            type="button"
+          >
             Reminders
           </button>
 
-          <button class="tab" type="button">
+          <button
+            id="completed-tab"
+            class="tab"
+            type="button"
+          >
             Completed reminders
           </button>
         </nav>
       </header>
 
       <main class="main-content">
-        <section class="reminder-section">
+        <section
+          id="reminder-section"
+          class="reminder-section"
+        >
           <h1>Cooking reminders</h1>
 
           <p class="instructions">
@@ -97,6 +108,38 @@
           <div id="waiting-reminders" class="waiting-list">
             <p class="empty-message">
               No active reminders yet.
+            </p>
+          </div>
+        </section>
+        <section
+          id="completed-section"
+          class="completed-section"
+          hidden
+        >
+          <div class="completed-header">
+            <div>
+              <h1>Completed reminders</h1>
+              <p class="instructions">
+                Your 100 most recent completed reminders.
+              </p>
+            </div>
+
+            <button
+              id="delete-selected"
+              class="delete-button"
+              type="button"
+            >
+              Delete selected
+            </button>
+          </div>
+
+          <p id="completed-count">
+            0 of 100 completed
+          </p>
+
+          <div id="completed-reminders">
+            <p class="completed-empty-message">
+              No completed reminders yet.
             </p>
           </div>
         </section>

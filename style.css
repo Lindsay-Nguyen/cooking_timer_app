@@ -199,3 +199,87 @@ body {
   color: #766b65;
   font-size: 16px;
 }
+
+.reminder-details {
+  flex: 1;
+}
+
+.reminder-countdown {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 145px;
+  padding: 14px 18px;
+  background-color: #ffffff;
+  border: 1px solid #d9cbc3;
+  border-radius: 16px;
+}
+
+.clock-symbol {
+  font-size: 26px;
+}
+
+.countdown-text {
+  color: #29231f;
+  font-size: 22px;
+}
+
+.reminder-item.finished {
+  opacity: 0.6;
+}
+.completed-section h1 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.completed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+#completed-count {
+  margin: 30px 0 12px;
+  color: #766b65;
+  text-align: right;
+}
+
+.completed-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 16px;
+  border-bottom: 1px solid #eadfd8;
+}
+
+.completed-item h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.completed-item p {
+  margin: 0;
+  color: #766b65;
+}
+
+.completed-checkbox {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.completed-empty-message {
+  margin: 36px 0;
+  color: #766b65;
+  text-align: center;
+}
+
+.delete-button {
+  padding: 12px 18px;
+  border: 1px solid #b94a3f;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #b94a3f;
+  cursor: pointer;
+}
