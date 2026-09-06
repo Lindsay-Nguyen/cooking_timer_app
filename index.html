@@ -2,14 +2,33 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1"
     >
 
+    <meta name="theme-color" content="#fffaf7">
+
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    >
+
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="default"
+    >
+
+    <meta
+      name="apple-mobile-web-app-title"
+      content="Household Timer"
+    >
+
     <title>Household Timer</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
   </head>
 
   <body>
@@ -146,6 +165,16 @@
       </main>
     </div>
     
-    <script src="script.js?v=3"></script>
+    <script src="./script.js?v=7"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register(
+            "./service-worker.js"
+          );
+        });
+      }
+    </script>
   </body>
 </html>
