@@ -66,7 +66,7 @@ startButton.addEventListener("click", function () {
     alert("You can only have 20 active reminders.");
     return;
   }
-  
+
   unlockSpeechOnPhone();
 
   const reminder = {
@@ -427,7 +427,7 @@ function repeatSpokenReminder(reminder) {
     if (reminder.state === "alarming") {
       reminder.alarmTimeoutId = setTimeout(function () {
         repeatSpokenReminder(reminder);
-      }, 5000);
+      }, 2000);
     }
   });
 
@@ -435,11 +435,17 @@ function repeatSpokenReminder(reminder) {
     if (reminder.state === "alarming") {
       reminder.alarmTimeoutId = setTimeout(function () {
         repeatSpokenReminder(reminder);
-      }, 5000);
+      }, 2000);
     }
   });
 
-  window.speechSynthesis.speak(speech);
+  window.speechSynthesis.resume();
+
+  setTimeout(function () {
+    if (reminder.state === "alarming") {
+      window.speechSynthesis.speak(speech);
+    }
+  }, 100);
 }
 
 /*
